@@ -1,4 +1,5 @@
 import pandas as pd
+from io import StringIO
 from requests import get
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -16,7 +17,7 @@ def get_pbp_helper(suffix):
     if r.status_code==200:
         soup = BeautifulSoup(r.content, 'html.parser')
         table = soup.find('table', attrs={'id': 'pbp'})
-        return pd.read_html(str(table))[0]
+        return pd.read_html(StringIO(str(table)))[0]
     else:
         raise ConnectionError('Request to basketball reference failed')
 

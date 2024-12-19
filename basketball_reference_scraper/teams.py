@@ -1,5 +1,6 @@
 import pandas as pd
 from bs4 import BeautifulSoup
+from io import StringIO
 
 try:
     from constants import TEAM_TO_TEAM_ABBR, TEAM_SETS
@@ -18,7 +19,7 @@ def get_roster(team, season_end_year):
     if r.status_code == 200:
         soup = BeautifulSoup(r.content, 'html.parser')
         table = soup.find('table', {'id': 'roster'})
-        df = pd.read_html(str(table))[0]
+        df = pd.read_html(StringIO(str(table)))[0]
         df.columns = ['NUMBER', 'PLAYER', 'POS', 'HEIGHT', 'WEIGHT', 'BIRTH_DATE',
                       'NATIONALITY', 'EXPERIENCE', 'COLLEGE']
         # remove rows with no player name (this was the issue above)
@@ -127,7 +128,7 @@ def get_team_ratings(season_end_year: int, team=[]):
         soup = BeautifulSoup(r.content, 'html.parser')
         table = soup.find('table', { 'id': 'ratings' })
     
-        df = pd.read_html(str(table))[0]
+        df = pd.read_html(StringIO(str(table)))[0]
         # Clean columns and indexes
         df = df.droplevel(level=0, axis=1)
         

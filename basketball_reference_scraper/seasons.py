@@ -1,4 +1,5 @@
 import pandas as pd
+from io import StringIO
 from datetime import datetime
 from bs4 import BeautifulSoup
 
@@ -21,7 +22,7 @@ def get_schedule(season, playoffs=False):
             soup = BeautifulSoup(r.content, 'html.parser')
             table = soup.find('table', attrs={'id': 'schedule'})
             if table:
-                month_df = pd.read_html(str(table))[0]
+                month_df = pd.read_html(StringIO(str(table)))[0]
                 df = pd.concat([df, month_df])
 
     df = df.reset_index()

@@ -1,4 +1,5 @@
 import pandas as pd
+from io import StringIO
 from bs4 import BeautifulSoup
 try:
     from request_utils import get_wrapper
@@ -13,7 +14,7 @@ def get_draft_class(year):
     if r.status_code==200:
         soup = BeautifulSoup(r.content, 'html.parser')
         table = soup.find('table')
-        df = pd.read_html(str(table))[0]
+        df = pd.read_html(StringIO(str(table)))[0]
 
         # get rid of duplicate pick col
         df.drop(['Unnamed: 0_level_0'], inplace=True, axis = 1, level=0)
