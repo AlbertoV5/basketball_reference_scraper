@@ -81,7 +81,7 @@ def get_game_logs(_name, year, playoffs=False, ask_matches=True):
         raise ConnectionError('Request to basketball reference failed')
 
 def get_player_headshot(_name, ask_matches=True):
-    name = lookup(_name, ask_matches)
+    name = _name
     suffix = get_player_suffix(name)
     jpg = suffix.split('/')[-1].replace('html', 'jpg')
     url = 'https://d2cwpp38twqe55.cloudfront.net/req/202006192/images/players/'+jpg
